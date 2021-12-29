@@ -149,7 +149,7 @@ end
 
 
 function onChatMessage(playerID, name, message)
-    print('\n[TZN] New chat message!: ' .. '\nPlayerID: ' .. playerID .. '\nName: ' .. name .. '\nMessage: ' .. message)
+     -- print('\n[TZN] New chat message!: ' .. '\nPlayerID: ' .. playerID .. '\nName: ' .. name .. '\nMessage: ' .. message)
     if split(message, ' ')[1] == '!ban' then
         message = split(message, ' ')
         name = message[2]
@@ -184,7 +184,7 @@ end
 
 
 function onPlayerConnecting(playerID) 
-    print('\n[TZN] Player Connecting {' .. MP.GetPlayerName(playerID) .. '}')
+    -- print('\n[TZN] Player Connecting {' .. MP.GetPlayerName(playerID) .. '}')
     if checkForUser(MP.GetPlayerName(playerID)) then
         print('\n[TZN] Player ' .. MP.GetPlayerName(playerID) .. ' tried to connect but is banned.')
         MP.DropPlayer(playerID, 'You are banned on this server!')
@@ -198,7 +198,7 @@ function ban(playerID, name, reason)
         MP.DropPlayer(playerID, 'You are banned on this server!')
         addEntry(path, name, reason)
     else
-        print('not admin')
+        print(MP.GetPlayerName(playerID) .. " tried to ban " .. name .. "but was not found in admins.txt!")
     end
 end
 
