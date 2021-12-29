@@ -1,8 +1,9 @@
 -- TODO: Start working on the timing system, and call other functions from the main file
 
-path = 'Resources/Server/Storage/bans.txt'
-adminpath = 'Resources/Server/Storage/admins.txt'
-bantimerpath = 'Resources/Server/Storage/bantimers.txt'
+path = 'Resources/Server/TZNTools/Storage/bans.txt'
+adminpath = 'Resources/Server/TZNTools/Storage/admins.txt'
+bantimerpath = 'Resources/Server/TZNTools/Storage/bantimers.txt'
+
 -- bans = io.open(path .. 'bans.txt', "w")
 -- bans:write("File system not complete\nThis is the second line")
 -- bans:close()    
@@ -102,7 +103,7 @@ end
 
 function isAdmin(username)
     for index, value in ipairs(lines_from(adminpath)) do
-        if username == value then
+        if username:lower() == value:lower() then
             return true
         end
     end
@@ -136,7 +137,6 @@ function newBanTimer(user, time)
 end    
 
 
-require("banTimer")
 
 
 --                                          --
@@ -159,6 +159,7 @@ function onChatMessage(playerID, name, message)
         table.remove(message, 1)
         for _, value in ipairs(message) do reason = reason .. ' ' .. value end 
         reason = reason:sub(2) 
+        print('Banning: ' .. name)
         ban(playerID, name, reason)
             -- yes I know I could have used a substring this is my first lua project give me a break lol
 
@@ -193,9 +194,11 @@ function onPlayerConnecting(playerID)
 end
 
 function ban(playerID, name, reason) 
-    if isAdmin(MP.GetPlayerName(playerID)) then
+    if isAdmin(MP.GetPlayerName(playerID):lower()) then
         MP.DropPlayer(playerID, 'You are banned on this server!')
         addEntry(path, name, reason)
+    else
+        print('not admin')
     end
 end
 
