@@ -1,3 +1,5 @@
+-- TODO: Start working on the timing system, and call other functions from the main file
+
 path = 'Resources/Server/Storage/bans.txt'
 adminpath = 'Resources/Server/Storage/admins.txt'
 bantimerpath = 'Resources/Server/Storage/bantimers.txt'
@@ -107,20 +109,40 @@ function isAdmin(username)
     return false
 end
 
-function checkBanTimers()
-    while true do
-        print('hello')
-    end
+function toseconds(time)
+    return 'nil'
 end
+
+function newBanTimer(user, time)
+    inputFile = bantimerpath
+
+    banEndTime = os.time(os.date("!*t")) + time
+
+
+    local file = io.open(inputFile, 'r')
+    local fileContent = {}
+    for line in file:lines() do
+        table.insert (fileContent, line)
+    end
+    io.close(file)
+
+    fileContent[file_len(path) + 1] = user .. ' _##_' .. banEndTime
+
+    file = io.open(inputFile, 'w')
+    for index, value in ipairs(fileContent) do
+        file:write(value..'\n')
+    end
+    io.close(file)
+end    
+
+
+require("banTimer")
+
 
 --                                          --
 -- FUNCTIONS TO MAKE LUA PROGRAMMING EASIER --
 ----------------------------------------------
-function test()
-    print('Test function has been called')
-end
 
-MP.CreateThread('test', 10)
  
 
 
@@ -143,7 +165,6 @@ function onChatMessage(playerID, name, message)
             -- though I would like to note that sometimes my really stupid method is more reliable because it doesn't soley rely on index, 
             -- which can be messed up by users more easily
 
-        
     elseif split(message, ' ')[1] == '!tempban' then
         message = split(message, ' ')
         name = message[2]
