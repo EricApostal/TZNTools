@@ -1,6 +1,6 @@
-path = 'Resources/Server/TZNTools/Storage/bans.txt'
-adminpath = 'Resources/Server/TZNTools/Storage/admins.txt'
-bantimerpath = 'Resources/Server/TZNTools/Storage/bantimers.txt'
+path = 'Resources/Server/Storage/bans.txt'
+adminpath = 'Resources/Server/Storage/admins.txt'
+bantimerpath = 'Resources/Server/Storage/bantimers.txt'
 -- bans = io.open(path .. 'bans.txt', "w")
 -- bans:write("File system not complete\nThis is the second line")
 -- bans:close()    
