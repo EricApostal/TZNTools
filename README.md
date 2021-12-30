@@ -6,8 +6,6 @@ The file must be in the "Resources/Server" directory and MUST MUST BE NAMED "TZN
 
 
 # Commands
-
-
 !ban (username) -- Permabans the user
 
 !kick (username) -- kicks the user

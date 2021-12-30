@@ -4,6 +4,7 @@ path = 'Resources/Server/TZNTools/Storage/bans.txt'
 adminpath = 'Resources/Server/TZNTools/Storage/admins.txt'
 bantimerpath = 'Resources/Server/TZNTools/Storage/bantimers.txt'
 
+
 -- bans = io.open(path .. 'bans.txt', "w")
 -- bans:write("File system not complete\nThis is the second line")
 -- bans:close()    
@@ -93,7 +94,7 @@ end
 function checkForUser(username)
     for index, value in ipairs(lines_from(path)) do
         value = split(value, '_##_')
-        if value[1] == username:lower() then
+        if value[1]:lower() == username:lower() then
             print(username .. ' is in ban records for ' .. value[2])
             return true
         end
@@ -137,14 +138,23 @@ function newBanTimer(user, time)
 end    
 
 
+function GetPlayerID(name)
+    name = name:lower()
+    print('There are ' .. MP.GetPlayerCount() .. ' players online')
+    local names = MP.GetPlayers()
+    for i=0, MP.GetPlayerCount() - 1 do ipairs(names) do
+        if name == names[i]:lower() then
+            return i
+        end
+        print(names[i])
+    end 
+end
+end
 
 
 --                                          --
 -- FUNCTIONS TO MAKE LUA PROGRAMMING EASIER --
 ----------------------------------------------
-
- 
-
 
 
 
@@ -184,8 +194,9 @@ end
 
 
 function onPlayerConnecting(playerID) 
+
     -- print('\n[TZN] Player Connecting {' .. MP.GetPlayerName(playerID) .. '}')
-    if checkForUser(MP.GetPlayerName(playerID)) then
+    if checkForUser(MP.GetPlayerName(playerID):lower()) then
         print('\n[TZN] Player ' .. MP.GetPlayerName(playerID) .. ' tried to connect but is banned.')
         MP.DropPlayer(playerID, 'You are banned on this server!')
 
@@ -193,9 +204,11 @@ function onPlayerConnecting(playerID)
 
 end
 
+
+
 function ban(playerID, name, reason) 
     if isAdmin(MP.GetPlayerName(playerID):lower()) then
-        MP.DropPlayer(playerID, 'You are banned on this server!')
+        MP.DropPlayer(GetPlayerID(name), 'You are banned on this server!')
         addEntry(path, name, reason)
     else
         print(MP.GetPlayerName(playerID) .. " tried to ban " .. name .. "but was not found in admins.txt!")
