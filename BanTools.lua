@@ -187,8 +187,13 @@ function onChatMessage(playerID, name, message)
         table.remove(message, 1)
         for _, value in ipairs(message) do reason = reason .. ' ' .. value end 
         reason = reason:sub(2) -- remove initial space
-        ban(playerID, name, time, reason)        
-    
+        ban(playerID, name, time, reason)      
+
+    elseif split(message, ' ')[1] == '!kick' then
+        message = split(message, ' ')
+        name = message[2]
+
+        kick(playerID, name, reason)
     end
 end
 
@@ -224,7 +229,7 @@ end
 
 function kick(playerID, name, reason) 
     if isAdmin(MP.GetPlayerName(playerID)) then
-        MP.DropPlayer(playerID, 'You have been kicked from the server. Reason: ' .. reason)
+        MP.DropPlayer(MP.DropPlayer(GetPlayerID(name), 'You have been kicked from the server. Reason: ' .. reason)
     end
 end
 
